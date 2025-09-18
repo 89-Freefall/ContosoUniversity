@@ -11,3 +11,37 @@
 - Labels linked to inputs using asp-for tag helper
 - Error messages displayed clearly using asp-validation-for tag helper
 - Keyboard focus order tested and logical
+
+
+# Week 5 Assignment 
+
+- CRUD and Sorting, Filtering, Paging, and Grouping
+- Add Create and Edit forms bound to a ViewModel
+- Add data annotations and client-side validation, and handle validation errors
+- Use Post/Redirect/Get with TempData to show a success message after a successful POST
+- Update README.md with short test plan
+
+## Test Plan
+Test plan for Week 5 Contoso University assignment. I went through 
+the main features to make sure everything works as expected.
+
+## 1. Students Page (Index)
+- Load the Students page and check that the list shows all students in the database.  
+- Test sorting by Last Name and Enrollment Date. Make sure the list updates correctly.  
+- Test the search box by typing a student’s first or last name and verify it filters the list.  
+- Test paging buttons Previous and Next to see that students are split across pages correctly.
+
+## 2. Create Student
+- Go to Create New and try adding a student with valid data. Confirm that it appears in the list after redirect.  
+- Try submitting empty fields to see that validation messages appear.
+
+## 3. Edit Student
+- Select a student and change data. Confirm that changes are saved and a success message shows.  
+- Test validation by entering invalid data or leaving required fields blank.
+
+## 4. Delete Student
+- Delete a student and make sure the list updates. Confirm that a success message appears.
+
+## 5. General
+- Make sure success messages show for create, edit, and delete actions.  
+- Check responsive layout: pages should work on mobile, tablet, and desktop.
