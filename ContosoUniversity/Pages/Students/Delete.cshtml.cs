@@ -42,7 +42,7 @@ namespace ContosoUniversity.Pages.Students
 
             if (saveChangesError.GetValueOrDefault())
             {
-                ErrorMessage = String.Format("Delete {ID} failed. Try again", id);
+                ErrorMessage = String.Format("Delete {0} failed. Try again", id);
             }
 
             return Page();
@@ -66,13 +66,17 @@ namespace ContosoUniversity.Pages.Students
             {
                 _context.Students.Remove(student);
                 await _context.SaveChangesAsync();
+
+                // Success message for deletion
+                TempData["SuccessMessage"] = $"Student {student.FirstMidName} {student.LastName} was deleted successfully.";
+
                 return RedirectToPage("./Index");
             }
             catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, ErrorMessage);
 
-                return RedirectToAction("./Delete",
+                return RedirectToPage("./Delete",
                                      new { id, saveChangesError = true });
             }
         }

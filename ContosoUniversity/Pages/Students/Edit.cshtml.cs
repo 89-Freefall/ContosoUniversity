@@ -13,56 +13,57 @@ namespace ContosoUniversity.Pages.Students
 {
     public class EditModel : PageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly SchoolContext _context;
 
-        public EditModel(ContosoUniversity.Data.SchoolContext context)
+        public EditModel(SchoolContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Student Student { get; set; } = default!;
+        public StudentViewModel Student { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            Student = await _context.Students.FindAsync(id);
-
-            if (Student == null)
-            {
+            var studentEntity = await _context.Students.FindAsync(id);
+            if (studentEntity == null)
                 return NotFound();
-            }
+
+            // Map entity to ViewModel
+            Student = new StudentViewModel
+            {
+                ID = studentEntity.ID,
+                FirstMidName = studentEntity.FirstMidName,
+                LastName = studentEntity.LastName,
+                EnrollmentDate = studentEntity.EnrollmentDate
+            };
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int id)
+        public async Task<IActionResult> OnPostAsync()
         {
-            var studentToUpdate = await _context.Students.FindAsync(id);
+            if (!ModelState.IsValid)
+                return Page();
 
+            // Find the existing entity
+            var studentToUpdate = await _context.Students.FindAsync(Student.ID);
             if (studentToUpdate == null)
-            {
                 return NotFound();
-            }
 
-            if (await TryUpdateModelAsync<Student>(
-                studentToUpdate,
-                "student",
-                s => s.FirstMidName, s => s.LastName, s => s.EnrollmentDate))
-            {
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
+            // Map ViewModel back to entity
+            studentToUpdate.FirstMidName = Student.FirstMidName;
+            studentToUpdate.LastName = Student.LastName;
+            studentToUpdate.EnrollmentDate = Student.EnrollmentDate;
 
-            return Page();
-        }
+            await _context.SaveChangesAsync();
 
-        private bool StudentExists(int id)
-        {
-            return _context.Students.Any(e => e.ID == id);
+            TempData["SuccessMessage"] = $"Student {Student.FirstMidName} {Student.LastName} updated successfully.";
+
+            return RedirectToPage("./Index");
         }
     }
 }

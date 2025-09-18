@@ -1,4 +1,5 @@
 ﻿using ContosoUniversity.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContosoUniversity.Data
 {
@@ -6,12 +7,16 @@ namespace ContosoUniversity.Data
     {
         public static void Initialize(SchoolContext context)
         {
-            // Look for any students.
+            // Make sure the database and tables are created
+            context.Database.EnsureCreated();
+
+            // Exit if students already exist
             if (context.Students.Any())
             {
-                return;   // DB has been seeded
+                return; // Already seeded
             }
 
+            // Seed Students
             var students = new Student[]
             {
                 new Student{FirstMidName="Carson",LastName="Alexander",EnrollmentDate=DateTime.Parse("2019-09-01")},
@@ -23,10 +28,10 @@ namespace ContosoUniversity.Data
                 new Student{FirstMidName="Laura",LastName="Norman",EnrollmentDate=DateTime.Parse("2018-09-01")},
                 new Student{FirstMidName="Nino",LastName="Olivetto",EnrollmentDate=DateTime.Parse("2019-09-01")}
             };
-
             context.Students.AddRange(students);
             context.SaveChanges();
 
+            // Seed Courses
             var courses = new Course[]
             {
                 new Course{CourseID=1050,Title="Chemistry",Credits=3},
@@ -37,10 +42,10 @@ namespace ContosoUniversity.Data
                 new Course{CourseID=2021,Title="Composition",Credits=3},
                 new Course{CourseID=2042,Title="Literature",Credits=4}
             };
-
             context.Courses.AddRange(courses);
             context.SaveChanges();
 
+            // Seed Enrollments
             var enrollments = new Enrollment[]
             {
                 new Enrollment{StudentID=1,CourseID=1050,Grade=Grade.A},
@@ -56,7 +61,6 @@ namespace ContosoUniversity.Data
                 new Enrollment{StudentID=6,CourseID=1045},
                 new Enrollment{StudentID=7,CourseID=3141,Grade=Grade.A},
             };
-
             context.Enrollments.AddRange(enrollments);
             context.SaveChanges();
         }

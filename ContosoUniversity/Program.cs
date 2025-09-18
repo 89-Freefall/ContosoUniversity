@@ -28,9 +28,13 @@ else
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-
     var context = services.GetRequiredService<SchoolContext>();
+
+    // Force a fresh database (drops & recreates)
+    context.Database.EnsureDeleted();
     context.Database.EnsureCreated();
+
+    // Seed initial data
     DbInitializer.Initialize(context);
 }
 
