@@ -1,0 +1,208 @@
+﻿<ContosoUniversity>
+	<Students>
+		<Student>
+			<FirstMidName>Carson</FirstMidName>
+			<LastName>Alexander</LastName>
+			<EnrollmentDate>2016-09-01</EnrollmentDate>
+		</Student>
+		<Student>
+			<FirstMidName>Meredith</FirstMidName>
+			<LastName>Alonso</LastName>
+			<EnrollmentDate>2018-09-01</EnrollmentDate>
+		</Student>
+		<Student>
+			<FirstMidName>Arturo</FirstMidName>
+			<LastName>Anand</LastName>
+			<EnrollmentDate>2019-09-01</EnrollmentDate>
+		</Student>
+		<Student>
+			<FirstMidName>Gytis</FirstMidName>
+			<LastName>Barzdukas</LastName>
+			<EnrollmentDate>2018-09-01</EnrollmentDate>
+		</Student>
+		<Student>
+			<FirstMidName>Yan</FirstMidName>
+			<LastName>Li</LastName>
+			<EnrollmentDate>2018-09-01</EnrollmentDate>
+		</Student>
+		<Student>
+			<FirstMidName>Peggy</FirstMidName>
+			<LastName>Justice</LastName>
+			<EnrollmentDate>2017-09-01</EnrollmentDate>
+		</Student>
+		<Student>
+			<FirstMidName>Laura</FirstMidName>
+			<LastName>Norman</LastName>
+			<EnrollmentDate>2019-09-01</EnrollmentDate>
+		</Student>
+		<Student>
+			<FirstMidName>Nino</FirstMidName>
+			<LastName>Olivetto</LastName>
+			<EnrollmentDate>2011-09-01</EnrollmentDate>
+		</Student>
+	</Students>
+
+	<Instructors>
+		<Instructor>
+			<FirstMidName>Kim</FirstMidName>
+			<LastName>Abercrombie</LastName>
+			<HireDate>1995-03-11</HireDate>
+		</Instructor>
+		<Instructor>
+			<FirstMidName>Fadi</FirstMidName>
+			<LastName>Fakhouri</LastName>
+			<HireDate>2002-07-06</HireDate>
+		</Instructor>
+		<Instructor>
+			<FirstMidName>Roger</FirstMidName>
+			<LastName>Harui</LastName>
+			<HireDate>1998-07-01</HireDate>
+		</Instructor>
+		<Instructor>
+			<FirstMidName>Candace</FirstMidName>
+			<LastName>Kapoor</LastName>
+			<HireDate>2001-01-15</HireDate>
+		</Instructor>
+		<Instructor>
+			<FirstMidName>Roger</FirstMidName>
+			<LastName>Zheng</LastName>
+			<HireDate>2004-02-12</HireDate>
+		</Instructor>
+	</Instructors>
+
+	<Departments>
+		<Department>
+			<Name>English</Name>
+			<Budget>350000</Budget>
+			<StartDate>2007-09-01</StartDate>
+			<Administrator>Kim Abercrombie</Administrator>
+		</Department>
+		<Department>
+			<Name>Mathematics</Name>
+			<Budget>100000</Budget>
+			<StartDate>2007-09-01</StartDate>
+			<Administrator>Fadi Fakhouri</Administrator>
+		</Department>
+		<Department>
+			<Name>Engineering</Name>
+			<Budget>350000</Budget>
+			<StartDate>2007-09-01</StartDate>
+			<Administrator>Roger Harui</Administrator>
+		</Department>
+		<Department>
+			<Name>Economics</Name>
+			<Budget>100000</Budget>
+			<StartDate>2007-09-01</StartDate>
+			<Administrator>Candace Kapoor</Administrator>
+		</Department>
+	</Departments>
+
+	<Courses>
+		<Course>
+			<CourseID>1050</CourseID>
+			<Title>Chemistry</Title>
+			<Credits>3</Credits>
+			<Department>Engineering</Department>
+			<Instructors>Candace Kapoor, Roger Harui</Instructors>
+		</Course>
+		<Course>
+			<CourseID>4022</CourseID>
+			<Title>Microeconomics</Title>
+			<Credits>3</Credits>
+			<Department>Economics</Department>
+			<Instructors>Roger Zheng</Instructors>
+		</Course>
+		<Course>
+			<CourseID>4041</CourseID>
+			<Title>Macroeconomics</Title>
+			<Credits>3</Credits>
+			<Department>Economics</Department>
+			<Instructors>Roger Zheng</Instructors>
+		</Course>
+		<Course>
+			<CourseID>1045</CourseID>
+			<Title>Calculus</Title>
+			<Credits>4</Credits>
+			<Department>Mathematics</Department>
+			<Instructors>Fadi Fakhouri</Instructors>
+		</Course>
+		<Course>
+			<CourseID>3141</CourseID>
+			<Title>Trigonometry</Title>
+			<Credits>4</Credits>
+			<Department>Mathematics</Department>
+			<Instructors>Roger Harui</Instructors>
+		</Course>
+		<Course>
+			<CourseID>2021</CourseID>
+			<Title>Composition</Title>
+			<Credits>3</Credits>
+			<Department>English</Department>
+			<Instructors>Kim Abercrombie</Instructors>
+		</Course>
+		<Course>
+			<CourseID>2042</CourseID>
+			<Title>Literature</Title>
+			<Credits>4</Credits>
+			<Department>English</Department>
+			<Instructors>Kim Abercrombie</Instructors>
+		</Course>
+	</Courses>
+
+	<Enrollments>
+		<Enrollment>
+			<Student>Carson Alexander</Student>
+			<Course>1050</Course>
+			<Grade>A</Grade>
+		</Enrollment>
+		<Enrollment>
+			<Student>Carson Alexander</Student>
+			<Course>4022</Course>
+			<Grade>C</Grade>
+		</Enrollment>
+		<Enrollment>
+			<Student>Carson Alexander</Student>
+			<Course>4041</Course>
+			<Grade>B</Grade>
+		</Enrollment>
+		<Enrollment>
+			<Student>Meredith Alonso</Student>
+			<Course>1045</Course>
+			<Grade>B</Grade>
+		</Enrollment>
+		<Enrollment>
+			<Student>Meredith Alonso</Student>
+			<Course>3141</Course>
+			<Grade>B</Grade>
+		</Enrollment>
+		<Enrollment>
+			<Student>Meredith Alonso</Student>
+			<Course>2021</Course>
+			<Grade>B</Grade>
+		</Enrollment>
+		<Enrollment>
+			<Student>Arturo Anand</Student>
+			<Course>1050</Course>
+		</Enrollment>
+		<Enrollment>
+			<Student>Arturo Anand</Student>
+			<Course>4022</Course>
+			<Grade>B</Grade>
+		</Enrollment>
+		<Enrollment>
+			<Student>Gytis Barzdukas</Student>
+			<Course>1050</Course>
+			<Grade>B</Grade>
+		</Enrollment>
+		<Enrollment>
+			<Student>Yan Li</Student>
+			<Course>2021</Course>
+			<Grade>B</Grade>
+		</Enrollment>
+		<Enrollment>
+			<Student>Peggy Justice</Student>
+			<Course>2042</Course>
+			<Grade>B</Grade>
+		</Enrollment>
+	</Enrollments>
+</ContosoUniversity>

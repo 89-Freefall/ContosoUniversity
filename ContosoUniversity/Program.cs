@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ContosoUniversity.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<SchoolContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolContext") ?? throw new InvalidOperationException("Connection string 'SchoolContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolContext")
+        ?? throw new InvalidOperationException("Connection string 'SchoolContext' not found.")));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -16,7 +18,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 else
@@ -25,19 +26,24 @@ else
     app.UseMigrationsEndPoint();
 }
 
+// Apply migrations and seed database
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<SchoolContext>();
 
-    // Force a fresh database (drops & recreates)
-    context.Database.EnsureDeleted();
-    context.Database.EnsureCreated();
+    // Optional: force a fresh database during development
+    // context.Database.EnsureDeleted();
+
+    // Apply migrations (creates tables if they don't exist)
+    context.Database.Migrate();
 
     // Seed initial data
     DbInitializer.Initialize(context);
-}
 
+    var xmlFile = Path.Combine(app.Environment.ContentRootPath, "SeedData.xml");
+    DbInitializer.SeedCoursesFromXml(context, xmlFile);
+}
 
 app.UseHttpsRedirection();
 
