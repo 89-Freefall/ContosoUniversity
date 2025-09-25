@@ -45,3 +45,18 @@ the main features to make sure everything works as expected.
 ## 5. General
 - Make sure success messages show for create, edit, and delete actions.  
 - Check responsive layout: pages should work on mobile, tablet, and desktop.
+
+# Week 6 Assignment
+- XML file `SeedData.xml` contains the initial data for the Contoso University database. It is organized 
+  into main sections for each type of entity:
+  - **Students:** FirstName, LastName, EnrollmentDate
+  - **Instructors:** FirstName, LastName, HireDate
+  - **Departments:** Name, Budget, StartDate, Administrator
+  - **Courses:** Title, Credits, Department
+  - **Enrollments:** Student, Course, Grade
+- This file is used to seed the database initially, and the seeding method is idempotent, so running it 
+  multiple times does not create duplicate entries.
+- Migration files are in the Migrations/ folder (InitialCreate is included).
+- CRUD works for Students and Instructors. TempData messages show for Create, Edit, and Delete.
+- Student Details page shows enrollments with courses using eager loading.
+- I tested sorting, filtering, paging, and all CRUD operations to make sure everything works.
