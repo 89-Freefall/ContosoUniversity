@@ -41,8 +41,11 @@ using (var scope = app.Services.CreateScope())
     // Seed initial data
     DbInitializer.Initialize(context);
 
-    var xmlFile = Path.Combine(app.Environment.ContentRootPath, "SeedData.xml");
+    var xmlFile = Path.Combine(app.Environment.ContentRootPath, "Data", "SeedData.xml");
+    Console.WriteLine("Seeding database from SeedData.xml...");
+
     DbInitializer.SeedCoursesFromXml(context, xmlFile);
+    Console.WriteLine("Database seeding completed.");
 }
 
 app.UseHttpsRedirection();

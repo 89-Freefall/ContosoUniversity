@@ -13,6 +13,7 @@ namespace ContosoUniversity.Data
             // Look for any students.
             if (context.Students.Any())
             {
+                Console.WriteLine("Database already seeded.");
                 return;   // DB has been seeded
             }
 
@@ -28,6 +29,8 @@ namespace ContosoUniversity.Data
 
             var students = new Student[] { alexander, alonso, anand, barzdukas, li, justice, norman, olivetto };
             context.AddRange(students);
+            context.SaveChanges();
+            Console.WriteLine($"Students seeded: {students.Length}");
 
             // --- Instructors ---
             var abercrombie = new Instructor { FirstMidName = "Kim", LastName = "Abercrombie", HireDate = DateTime.Parse("1995-03-11") };
@@ -38,6 +41,8 @@ namespace ContosoUniversity.Data
 
             var instructors = new Instructor[] { abercrombie, fakhouri, harui, kapoor, zheng };
             context.AddRange(instructors);
+            context.SaveChanges();
+            Console.WriteLine($"Instructors seeded: {instructors.Length}");
 
             // --- Office Assignments ---
             var officeAssignments = new OfficeAssignment[]
@@ -47,6 +52,8 @@ namespace ContosoUniversity.Data
                 new OfficeAssignment { Instructor = kapoor, Location = "Thompson 304" }
             };
             context.AddRange(officeAssignments);
+            context.SaveChanges();
+            Console.WriteLine($"Office assignments seeded: {officeAssignments.Length}");
 
             // --- Departments ---
             var english = new Department { Name = "English", Budget = 350000, StartDate = DateTime.Parse("2007-09-01"), Administrator = abercrombie };
@@ -56,10 +63,10 @@ namespace ContosoUniversity.Data
 
             var departments = new Department[] { english, mathematics, engineering, economics };
             context.AddRange(departments);
+            context.SaveChanges();
+            Console.WriteLine($"Departments seeded: {departments.Length}");
 
-            context.SaveChanges(); // Save so IDs are set
-
-            // --- Enrollments ---
+            // --- Courses ---
             var courses = new Course[]
             {
                 new Course { CourseID = 1050, Title = "Chemistry", Credits = 3, Department = engineering, Instructors = new List<Instructor>{ kapoor, harui } },
@@ -71,15 +78,15 @@ namespace ContosoUniversity.Data
                 new Course { CourseID = 2042, Title = "Literature", Credits = 4, Department = english, Instructors = new List<Instructor>{ abercrombie } }
             };
 
-            // --- Add courses if they don't exist (idempotent) ---
             foreach (var c in courses)
             {
                 if (!context.Courses.Any(x => x.CourseID == c.CourseID))
                     context.Courses.Add(c);
             }
-
             context.SaveChanges();
+            Console.WriteLine($"Courses seeded: {courses.Length}");
 
+            // --- Enrollments ---
             var enrollments = new Enrollment[]
             {
                 new Enrollment { Student = alexander, Course = courses[0], Grade = Grade.A },
@@ -97,6 +104,7 @@ namespace ContosoUniversity.Data
 
             context.AddRange(enrollments);
             context.SaveChanges();
+            Console.WriteLine($"Enrollments seeded: {enrollments.Length}");
         }
 
         // --- XML seeding helper ---
@@ -104,6 +112,7 @@ namespace ContosoUniversity.Data
         {
             var doc = XDocument.Load(xmlFile);
 
+            int added = 0;
             foreach (var element in doc.Root.Elements("Course"))
             {
                 int courseId = int.Parse(element.Element("CourseID")!.Value);
@@ -131,9 +140,11 @@ namespace ContosoUniversity.Data
                 };
 
                 context.Courses.Add(course);
+                added++;
             }
 
             context.SaveChanges();
+            Console.WriteLine($"Courses from XML seeded: {added}");
         }
     }
 }
