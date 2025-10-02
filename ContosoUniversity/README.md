@@ -59,3 +59,8 @@ the main features to make sure everything works as expected.
 - CRUD works for Students and Instructors. TempData messages show for Create, Edit, and Delete.
 - Student Details page shows enrollments with courses using eager loading.
 - I tested sorting, filtering, paging, and all CRUD operations to make sure everything works.
+
+# Week 7 Assignment
+- Unit Tests: Added two unit tests for QuoteService to verify quote generation.
+- Integration Test: Created an integration test using WebApplicationFactory for the Index page, ensuring IQuoteService is correctly injected and returns a quote.
+- Structured Logging: Added ILogger to IndexModel to log quote information during page load, active in the Development environment.
