@@ -1,16 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using ContosoUniversity.Data;
+using ContosoUniversity.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddDbContext<SchoolContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolContext")
-        ?? throw new InvalidOperationException("Connection string 'SchoolContext' not found.")));
+builder.Services.AddRazorPages(options =>
+{
+    // Apply authorization convention to SecurePage 
+    options.Conventions.AuthorizePage("/SecurePage");
+});
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+// Register QuoteService
+builder.Services.AddScoped<IQuoteService, QuoteService>();
+
+// Only register SQL Server if not running integration tests
+if (!builder.Environment.IsEnvironment("Test"))
+{
+    builder.Services.AddDbContext<SchoolContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolContext")
+            ?? throw new InvalidOperationException("Connection string 'SchoolContext' not found.")));
+
+    builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+}
 
 var app = builder.Build();
 
@@ -26,36 +38,33 @@ else
     app.UseMigrationsEndPoint();
 }
 
-// Apply migrations and seed database
-using (var scope = app.Services.CreateScope())
+// Seed database only outside integration tests
+if (!builder.Environment.IsEnvironment("Test"))
 {
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<SchoolContext>();
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<SchoolContext>();
 
-    // Optional: force a fresh database during development
-    // context.Database.EnsureDeleted();
+        // Apply migrations and seed database
+        context.Database.Migrate();
+        DbInitializer.Initialize(context);
 
-    // Apply migrations (creates tables if they don't exist)
-    context.Database.Migrate();
-
-    // Seed initial data
-    DbInitializer.Initialize(context);
-
-    var xmlFile = Path.Combine(app.Environment.ContentRootPath, "Data", "SeedData.xml");
-    Console.WriteLine("Seeding database from SeedData.xml...");
-
-    DbInitializer.SeedCoursesFromXml(context, xmlFile);
-    Console.WriteLine("Database seeding completed.");
+        var xmlFile = Path.Combine(app.Environment.ContentRootPath, "Data", "SeedData.xml");
+        Console.WriteLine("Seeding database from SeedData.xml...");
+        DbInitializer.SeedCoursesFromXml(context, xmlFile);
+        Console.WriteLine("Database seeding completed.");
+    }
 }
 
 app.UseHttpsRedirection();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapRazorPages().WithStaticAssets();
 
 app.Run();
+
+// Make Program partial for integration testing
+public partial class Program { }
